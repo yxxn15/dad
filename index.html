@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎂 Happy Birthday, Dad 🎂</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- 1. 돌사진 + 폭죽 + 문구 -->
+<div id="intro" class="fullscreen">
+  <div class="intro-content">
+    <img src="4.png" class="intro-photo" alt="돌잔치사진" />
+    <div class="intro-text">
+      <span id="typing-text"></span>
+    </div>
+  </div>
+  <canvas id="confettiCanvas"></canvas>
+</div>
+
+
+  <!-- 2. 전체화면 영상 -->
+  <div id="video-fullscreen" class="fullscreen hidden">
+    <video id="birthday-video" autoplay controls class="video-player">
+      <source src="test.mp4" type="video/mp4" />
+      브라우저가 비디오를 지원하지 않습니다.
+    </video>
+    <span id="video-close" class="close-btn hidden" onclick="closeVideo()">×</span>
+  </div>
+
+  <!-- 3. 사진 갤러리 -->
+  <div id="content-area" class="hidden">
+    <div class="gallery">
+      <div class="polaroid" onclick="openViewer(0)">
+        <img src="1.png" alt="추억사진1" />
+      </div>
+      <div class="polaroid" onclick="openViewer(1)">
+        <img src="2.png" alt="추억사진2" />
+      </div>
+      <div class="polaroid" onclick="openViewer(2)">
+        <img src="3.png" alt="추억사진3" />
+      </div>
+    </div>
+
+    <!-- 편지 버튼 -->
+<div style="text-align: center; margin-top: 40px;">
+  <button onclick="showLetter()" id="toggle-letter-btn">💌 편지 보기</button>
+</div>
+
+<div id="letter-popup" class="rolling-paper hidden">
+  <span class="letter-close" onclick="hideLetter()">×</span>
+  <div class="letter-inner">
+      <h2>💌 TO. 아빠</h2>
+      <p>
+        ~ 편지 ~
+      </p>
+    </div>
+  </div>
+</div>
+
+
+  <!-- 사진 클릭 확대 뷰어 -->
+  <div id="viewer" class="hidden">
+    <span class="close-btn" onclick="closeViewer()">×</span>
+    <img id="viewer-img" src="" alt="확대 이미지" />
+    <p id="viewer-text"></p>
+  </div>
+
+  <!-- 배경음악 -->
+  <audio autoplay loop>
+    <source src="birthday_song.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- 스크립트 -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
