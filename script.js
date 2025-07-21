@@ -17,7 +17,6 @@ window.onload = () => {
         const video = document.getElementById("birthday-video");
         video.onended = () => {
           document.getElementById("video-close").classList.remove("hidden");
-          closeVideo();
         };
       }, 2000);
     });
