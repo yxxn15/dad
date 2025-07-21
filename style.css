@@ -240,8 +240,8 @@
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 500px;
+  width: 80%; /* ✅ 90% → 80% 로 줄임 */
+  max-width: 420px; /* ✅ 종이 최대 너비 줄임 */
   background: #fefaf4;
   border-radius: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -250,6 +250,7 @@
   z-index: 1000;
   transition: all 0.4s ease;
 }
+
 
 .letter-inner h2 {
   font-size: 1.8em;
