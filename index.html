@@ -11,7 +11,7 @@
 <!-- 1. 돌사진 + 폭죽 + 문구 -->
 <div id="intro" class="fullscreen">
   <div class="intro-content">
-    <img src="4.png" class="intro-photo" alt="돌잔치사진" />
+    <img src="baby.png" class="intro-photo" alt="돌잔치사진" />
     <div class="intro-text">
       <span id="typing-text"></span>
     </div>
@@ -29,19 +29,18 @@
     <span id="video-close" class="close-btn hidden" onclick="closeVideo()">×</span>
   </div>
 
-  <!-- 3. 사진 갤러리 -->
-  <div id="content-area" class="hidden">
-    <div class="gallery">
-      <div class="polaroid" onclick="openViewer(0)">
-        <img src="1.png" alt="추억사진1" />
-      </div>
-      <div class="polaroid" onclick="openViewer(1)">
-        <img src="2.png" alt="추억사진2" />
-      </div>
-      <div class="polaroid" onclick="openViewer(2)">
-        <img src="3.png" alt="추억사진3" />
-      </div>
-    </div>
+ <div class="film-strip">
+  <div class="film-frame" onclick="openViewer(0)">
+    <img src="1.png" alt="추억사진1" />
+  </div>
+  <div class="film-frame" onclick="openViewer(1)">
+    <img src="2.png" alt="추억사진2" />
+  </div>
+  <div class="film-frame" onclick="openViewer(2)">
+    <img src="3.png" alt="추억사진3" />
+  </div>
+</div>
+
 
     <!-- 편지 버튼 -->
 <div style="text-align: center; margin-top: 40px;">
@@ -66,11 +65,6 @@
     <img id="viewer-img" src="" alt="확대 이미지" />
     <p id="viewer-text"></p>
   </div>
-
-  <!-- 배경음악 -->
-  <audio autoplay loop>
-    <source src="birthday_song.mp3" type="audio/mpeg" />
-  </audio>
 
   <!-- 스크립트 -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
