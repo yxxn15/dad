@@ -27,12 +27,13 @@
   position: fixed;
   top: 0; left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background: black;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
+  overflow: hidden;
 }
 
 .intro-photo {
@@ -179,4 +180,11 @@
 #letter-container.show {
   opacity: 1;
   display: block;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
