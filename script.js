@@ -1,15 +1,8 @@
-const photos = [
-  { src: "1.png", text: "추억사진1" },
-  { src: "2.png", text: "추억사진2" },
-  { src: "3.png", text: "추억사진3" },
-];
-
 window.onload = () => {
   setTimeout(() => {
     launchConfetti();
 
     typeText("사랑하는 아빠 생일 축하해 🎉", "typing-text", 150, () => {
-      // 타자효과 끝난 뒤 2초 대기 후 전환
       setTimeout(() => {
         document.getElementById("intro").classList.add("hidden");
         document.getElementById("video-fullscreen").classList.remove("hidden");
@@ -20,12 +13,10 @@ window.onload = () => {
         };
       }, 2000);
     });
-  }, 500); // 페이지 로드 후 1초 기다림
+  }, 500);
 };
 
-
-
-// 폭죽 효과
+// 🎉 폭죽 효과
 function launchConfetti() {
   const canvas = document.getElementById("confettiCanvas");
   canvas.width = window.innerWidth;
@@ -39,7 +30,7 @@ function launchConfetti() {
   });
 }
 
-// 타자 효과
+// ⌨️ 타자 효과
 function typeText(text, targetId, speed = 150, callback = null) {
   const target = document.getElementById(targetId);
   let i = 0;
@@ -53,29 +44,54 @@ function typeText(text, targetId, speed = 150, callback = null) {
   }, speed);
 }
 
-
-// 영상 종료 후 닫기 버튼 → 본 콘텐츠로 전환
+// 영상 닫고 필름 시작
 function closeVideo() {
   document.getElementById("video-fullscreen").classList.add("hidden");
-  document.getElementById("content-area").classList.remove("hidden");
+  const filmContainer = document.getElementById("film-container");
+  filmContainer.classList.remove("hidden");
+
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+
+    startScrollingUntilLetterVisible();
+  });
 }
 
-// 사진 확대
-function openViewer(index) {
-  document.getElementById("viewer").classList.remove("hidden");
-  document.getElementById("viewer-img").src = photos[index].src;
-  document.getElementById("viewer-text").innerText = photos[index].text;
-}
+// 🔽 필름 스크롤 애니메이션 (JS 기반)
+function startScrollingUntilLetterVisible() {
+  const filmContainer = document.getElementById("film-container");
+  const letter = document.getElementById("letter-container");
 
-function closeViewer() {
-  document.getElementById("viewer").classList.add("hidden");
-}
+  let start = null;
+  const duration = 200000; // 전체 스크롤 시간 (200초 = 기존과 동일)
+  const totalDistance = 60000; // 전체 스크롤 거리 (px)
 
-// 편지 보기/닫기
-function showLetter() {
-  document.getElementById("letter-popup").classList.remove("hidden");
-}
+  function step(timestamp) {
+    if (!start) start = timestamp;
+    const elapsed = timestamp - start;
 
-function hideLetter() {
-  document.getElementById("letter-popup").classList.add("hidden");
+    const progress = Math.min(elapsed / duration, 1);
+    const currentY = progress * totalDistance;
+
+    filmContainer.style.transform = `translateY(-${currentY}px)`;
+
+    // 편지가 화면 중앙에 오면 멈춤
+    const rect = letter.getBoundingClientRect();
+    const inCenter = rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+
+    if (!inCenter && progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      // 정중앙에 도달 시 고정
+      console.log("✅ 편지가 중앙에 도달, 스크롤 정지");
+    }
+  }
+
+  requestAnimationFrame(step);
+
+  // 편지는 5초 후 보여지도록
+  setTimeout(() => {
+    letter.classList.add("show");
+    letter.style.display = "block";
+  }, 5000); // 5초 후
 }

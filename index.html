@@ -29,35 +29,30 @@
     <span id="video-close" class="close-btn hidden" onclick="closeVideo()">×</span>
   </div>
 
- <div class="film-strip">
-  <div class="film-frame" onclick="openViewer(0)">
-    <img src="1.png" alt="추억사진1" />
-  </div>
-  <div class="film-frame" onclick="openViewer(1)">
-    <img src="2.png" alt="추억사진2" />
-  </div>
-  <div class="film-frame" onclick="openViewer(2)">
-    <img src="3.png" alt="추억사진3" />
-  </div>
-</div>
+ <div id="film-container">
+    <img src="film1.jpg" class="film" />
+    <img src="film2.jpg" class="film" />
+    <img src="film3.jpg" class="film" />
+    <img src="film4.jpg" class="film" />
+    <img src="film5.jpg" class="film" />
+    <img src="film6.jpg" class="film" />
+    <img src="film7.jpg" class="film" />
+    <img src="film8.jpg" class="film" />
+    <img src="film9.jpg" class="film" />
+    <img src="film10.jpg" class="film" />
+    <img src="film11.jpg" class="film" />
 
-
-    <!-- 편지 버튼 -->
-<div style="text-align: center; margin-top: 40px;">
-  <button onclick="showLetter()" id="toggle-letter-btn">💌 편지 보기</button>
-</div>
-
-<div id="letter-popup" class="rolling-paper hidden">
-  <span class="letter-close" onclick="hideLetter()">×</span>
-  <div class="letter-inner">
+        <div id="letter-container">
+    <div class="letter-block">
       <h2>💌 TO. 아빠</h2>
       <p>
         ~ 편지 ~
       </p>
     </div>
   </div>
-</div>
+  </div>
 
+  
 
   <!-- 사진 클릭 확대 뷰어 -->
   <div id="viewer" class="hidden">
@@ -69,5 +64,6 @@
   <!-- 스크립트 -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
