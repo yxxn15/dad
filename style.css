@@ -159,9 +159,11 @@
 
 .film {
   display: block;
-  width: 100vw;
-  max-width: 430px;
-  margin: 0 auto;
+  width: 100vw;         /* 뷰포트 전체 너비 */
+  max-width: none;      /* 💡 너비 제한 제거 */
+  margin: 0;            /* 💡 좌우 마진 제거 */
+  padding: 0;           /* 💡 여백 제거 */
+  object-fit: contain;
 }
 
 #letter-container {
