@@ -1,109 +1,38 @@
-.intro-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+/* 기본 설정 */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* 스크롤바는 항상 숨김 */
+  background-color: #000; /* 전체 기본 배경은 검은색 */
 }
 
-#confettiCanvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 1001; /* 제일 위로 */
-}
-
+/* 핵심: 숨김 클래스 */
 .hidden {
-  display: none;
+  display: none !important;
 }
-/* 전체화면 공통 */
+
+/* 전체화면 섹션 공통 스타일 */
 .fullscreen {
   position: fixed;
   top: 0; left: 0;
-  width: 100vw;
-  height: 100dvh;
-  background: black;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
-  overflow: hidden;
+  flex-direction: column;
+  z-index: 100;
 }
 
+/* 1. 인트로 */
 .intro-photo {
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: 80vh;
   border-radius: 15px;
-}
-
-.video-player {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: black;
-}
-
-/* 닫기 버튼 */
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2.5em;
-  color: #fff;
-  cursor: pointer;
-  z-index: 1001;
-  transition: color 0.3s ease;
-}
-.close-btn:hover {
-  color: #ff6b6b;
-}
-
-/* 숨김 */
-.hidden {
-  display: none;
-}
-
-.letter-content h2 {
-  color: #c77b7b;
-  margin-bottom: 15px;
-}
-.letter-content p {
-  color: #555;
-  font-size: 1.1em;
-  line-height: 1.6;
-}
-
-.letter-inner h2 {
-  font-size: 1.8em;
-  color: #e46952;
   margin-bottom: 20px;
 }
-
-.letter-inner p {
-  font-size: 1.1em;
-  line-height: 1.6;
-  color: #444;
-}
-
-.letter-close:hover {
-  color: #e46952;
-}
-
-.intro-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  width: 100%; /* 💡 혹시 빠져 있다면 */
-}
-
-
 .intro-text {
   font-size: 2em;
   font-weight: bold;
@@ -118,73 +47,83 @@
   display: flex;           /* 💡 플렉스 컨테이너로 설정 */
   justify-content: center; /* 💡 가운데 정렬 */
 }
+#confettiCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 101;
+}
 
-.film-frame img {
+/* 2. 비디오 */
+.video-player {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-/* 호버 확대 효과 */
-.film-frame:hover {
-  transform: scale(1.1);
-}
-
-/* 모바일 대응 */
-@media (max-width: 600px) {
-  .film-strip {
-    gap: 10px;
-    padding: 20px 10px;
-  }
-
-  .film-frame {
-    width: 120px;
-    height: 80px;
-  }
-}
-#film-container {
-        margin-top: 70vh; /*시작 절반 아래*/
-      position: relative;
-    }
-    /*.animate-film {
-      animation: scrollUp 200s linear forwards;
-    }*/
-    @keyframes scrollUp {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-60000px); /* 정확한 높이는 필름 총 높이 + 여백 고려해서 조절 */
-  }
-}
-
-.film {
-  display: block;
-  width: 100vw;         /* 뷰포트 전체 너비 */
-  max-width: none;      /* 💡 너비 제한 제거 */
-  margin: 0;            /* 💡 좌우 마진 제거 */
-  padding: 0;           /* 💡 여백 제거 */
   object-fit: contain;
 }
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2.5em;
+  color: #fff;
+  cursor: pointer;
+  z-index: 102;
+}
 
+/* 3. 필름 컨테이너 */
+#film-container {
+  position: absolute; /* transform 애니메이션을 위해 absolute 사용 */
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.film {
+  display: block;
+  width: 100%;
+}
 #letter-container {
-  display: none;
-  opacity: 0;
-  transition: opacity 2s;
-  text-align: center;
-  padding: 50px 20px;
+  padding: 10vh 20px;
   max-width: 600px;
   margin: 0 auto;
+  color: white;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1.5s;
 }
-
 #letter-container.show {
   opacity: 1;
-  display: block;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
+#speed-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%; /* 왼쪽에서 50% 위치 */
+  transform: translateX(-50%); /* X축으로 -50% 만큼 이동해 중앙 정렬 */
+  z-index: 200;
+  display: flex;
+  gap: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  border-radius: 10px;
+}
+
+#speed-controls button {
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+#speed-controls button:hover {
+  background-color: #777;
+}
+
+#speed-controls button.active {
+  background-color: #007bff;
+  color: white;
 }
