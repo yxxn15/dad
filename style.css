@@ -1,38 +1,27 @@
-/* 기본 설정 */
+* 기본 설정 */
 html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* 스크롤바는 항상 숨김 */
-  background-color: #000; /* 전체 기본 배경은 검은색 */
+  margin: 0; padding: 0;
+  width: 100%; height: 100%;
+  overflow: hidden; /* 페이지 전체 스크롤바는 항상 숨김 */
+  background-color: #000;
 }
 
-/* 핵심: 숨김 클래스 */
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
-/* 전체화면 섹션 공통 스타일 */
+/* 1 & 2. 인트로 & 비디오 공통 */
 .fullscreen {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 100;
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex; justify-content: center; align-items: center;
+  flex-direction: column; z-index: 300;
+  background: black;
 }
 
-/* 1. 인트로 */
 .intro-photo {
-  max-width: 90vw;
-  max-height: 80vh;
-  border-radius: 15px;
-  margin-bottom: 20px;
+  max-width: 90vw; max-height: 80vh;
+  border-radius: 15px; margin-bottom: 20px;
 }
+
 .intro-text {
   font-size: 2em;
   font-weight: bold;
@@ -47,83 +36,44 @@ html, body {
   display: flex;           /* 💡 플렉스 컨테이너로 설정 */
   justify-content: center; /* 💡 가운데 정렬 */
 }
-#confettiCanvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 101;
-}
 
-/* 2. 비디오 */
-.video-player {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2.5em;
-  color: #fff;
-  cursor: pointer;
-  z-index: 102;
-}
+#confettiCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 301; }
+.video-player { width: 100%; height: 100%; object-fit: contain; }
+.close-btn { position: absolute; top: 20px; right: 30px; font-size: 2.5em; color: #fff; cursor: pointer; z-index: 302; }
 
-/* 3. 필름 컨테이너 */
+/* ✅ 3. 필름 스크롤 영역 (핵심 변경) */
 #film-container {
-  position: absolute; /* transform 애니메이션을 위해 absolute 사용 */
-  top: 0;
-  left: 0;
-  width: 100%;
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow-y: scroll; /* 이 컨테이너 자체에 세로 스크롤바를 만듦 */
+  -ms-overflow-style: none; /* IE, Edge 스크롤바 숨김 */
+  scrollbar-width: none; /* Firefox 스크롤바 숨김 */
+  z-index: 100;
 }
-.film {
-  display: block;
-  width: 100%;
-}
-#letter-container {
-  padding: 10vh 20px;
-  max-width: 600px;
-  margin: 0 auto;
-  color: white;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 1.5s;
-}
-#letter-container.show {
-  opacity: 1;
-}
+#film-container::-webkit-scrollbar { display: none; /* Chrome, Safari 스크롤바 숨김 */ }
 
+.film-strip { width: 100%; } /* 필름과 편지를 감싸는 내부 div */
+.film { display: block; width: 100%; }
+#letter-container { padding: 20vh 20px; max-width: 600px; margin: 0 auto; color: white; text-align: center; }
+#letter-container h2, #letter-container p { text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+
+/* ✅ 4. 배속 조절 버튼 (핵심 변경) */
 #speed-controls {
   position: fixed;
-  bottom: 20px;
-  left: 50%; /* 왼쪽에서 50% 위치 */
-  transform: translateX(-50%); /* X축으로 -50% 만큼 이동해 중앙 정렬 */
-  z-index: 200;
+  bottom: 30px; /* 하단 여백 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200; /* 필름 컨테이너(100)보다 위에 위치 */
   display: flex;
   gap: 8px;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 8px;
   border-radius: 10px;
 }
-
 #speed-controls button {
-  background-color: #555;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-weight: bold;
+  background-color: #555; color: white; border: none; border-radius: 5px;
+  padding: 8px 12px; cursor: pointer; font-weight: bold;
   transition: background-color 0.2s;
 }
-
-#speed-controls button:hover {
-  background-color: #777;
-}
-
-#speed-controls button.active {
-  background-color: #007bff;
-  color: white;
-}
+#speed-controls button:hover { background-color: #777; }
+#speed-controls button.active { background-color: #007bff; color: white; }
