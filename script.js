@@ -19,11 +19,15 @@ window.onload = function() {
   video.onended = () => { videoCloseBtn.classList.remove('hidden'); };
 };
 
-// 영상 닫기
+// 영상 닫기 버튼을 눌렀을 때 실행되는 함수
 function closeVideo() {
   document.getElementById('video-fullscreen').classList.add('hidden');
   document.getElementById('film-container').classList.remove('hidden');
   document.getElementById('speed-controls').classList.remove('hidden');
+  
+  // ✅ 여기에 음악 재생 코드를 추가합니다!
+  document.getElementById('background-music').play();
+
   setSpeed(1.0);
 }
 

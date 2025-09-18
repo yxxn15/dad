@@ -54,8 +54,17 @@ html, body {
 
 .film-strip { width: 100%; } /* 필름과 편지를 감싸는 내부 div */
 .film { display: block; width: 100%; }
-#letter-container { padding: 20vh 20px; max-width: 600px; margin: 0 auto; color: white; text-align: center; }
-#letter-container h2, #letter-container p { text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+#letter-container { padding: 20vh 20px; max-width: 600px; margin: 0 auto; color: rgb(0, 0, 0); text-align: center; }
+#letter-container h2 {
+  font-size: 1.8em; /* 제목 글씨 크기 */
+  margin-bottom: 25px; /* 제목과 내용 사이 간격 */
+  text-shadow: none;
+}
+#letter-container p {
+  font-size: 1.2em; /* 내용 글씨 크기 */
+  line-height: 1.8; /* 줄 간격 */
+  text-shadow: none;
+}
 
 /* ✅ 4. 배속 조절 버튼 (핵심 변경) */
 #speed-controls {
