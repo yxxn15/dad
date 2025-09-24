@@ -86,3 +86,31 @@ html, body {
 }
 #speed-controls button:hover { background-color: #777; }
 #speed-controls button.active { background-color: #007bff; color: white; }
+
+/* ✅ 일시정지 아이콘 스타일 */
+#pause-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 250;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* gap: 20px; <-- 이 줄은 삭제하거나 그대로 둬도 됩니다 */
+  width: 120px;
+  height: 120px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ✅ 재생 버튼(삼각형) 모양을 만드는 CSS */
+.play-icon {
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;    /* 위쪽 테두리는 투명 */
+  border-bottom: 30px solid transparent; /* 아래쪽 테두리는 투명 */
+  border-left: 52px solid rgba(255, 255, 255, 0.8); /* 왼쪽 테두리로 삼각형 모양 만듦 */
+  margin-left: 10px; /* 원 안에서 보기 좋게 위치 조정 */
+}
