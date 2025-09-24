@@ -26,8 +26,15 @@ function closeVideo() {
   document.getElementById('speed-controls').classList.remove('hidden');
   
   // ✅ 여기에 음악 재생 코드를 추가합니다!
-  document.getElementById('background-music').play();
+  const music = document.getElementById('background-music');
+  music.currentTime = 66;
 
+  const playPromise = music.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      console.log("자동재생이 차단되었습니다. 사용자 상호작용이 필요합니다.");
+    });
+  }
   setSpeed(1.0);
 }
 
