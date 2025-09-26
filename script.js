@@ -73,7 +73,7 @@ function startFilmSequence() {
   waitForImages('#film-container', () => {
     filmContainer.scrollTop = 0;
     const music = document.getElementById('background-music');
-    music.currentTime = 66;
+    music.currentTime = 67;
     music.play().catch(e => console.log("음악 재생 오류:", e));
     setSpeed(1.0);
   });
