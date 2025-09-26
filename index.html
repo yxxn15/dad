@@ -9,61 +9,66 @@
 <body>
   <audio id="background-music" loop>
     <source src="Bravo_My_Life.mp3" type="audio/mpeg">
-    브라우저가 오디오를 지원하지 않습니다.
   </audio>
+
   <div id="intro" class="fullscreen">
     <div class="intro-content">
       <img src="baby.png" class="intro-photo" alt="돌잔치사진" />
-      <div class="intro-text">
-        <span id="typing-text"></span>
-      </div>
+      <div class="intro-text"><span id="typing-text"></span></div>
     </div>
     <canvas id="confettiCanvas"></canvas>
   </div>
 
-  <div id="video-fullscreen" class="fullscreen hidden">
-    <video id="birthday-video" controls class="video-player">
-      <source src="test.mp4" type="video/mp4" />
-      브라우저가 비디오를 지원하지 않습니다.
-    </video>
-    <span id="video-close" class="close-btn hidden" onclick="closeVideo()">×</span>
-  </div>
-
-  <div id="film-container" class="hidden">
-    <img src="film1.jpg" class="film" />
-    <img src="film2.jpg" class="film" />
-    <img src="film3.jpg" class="film" />
-    <img src="film4.jpg" class="film" />
-    <img src="film5.jpg" class="film" />
-    <img src="film6.jpg" class="film" />
-    <img src="film7.jpg" class="film" />
-    <img src="film8.jpg" class="film" />
-    <img src="film9.jpg" class="film" />
-    <img src="film10.jpg" class="film" />
-    <img src="film11.jpg" class="film" />
-    <img src="film12.png" class="film" />
-
-
+  <div id="letter-screen" class="fullscreen hidden">
     <div id="letter-container">
-      <div class="letter-block">
+      <div class="letter-content">
+        <h2>💌 사랑하는 남편에게</h2>
+        <p>생일 축하해 ~~^^
+        참좋은 계절에 태어났지만 일하느라 생일을 즐기지 못하지ㅠ
+        오늘만큼은 나와 이쁜딸들 사이에서
+        맛있는거 먹으며 활짝 웃어보자~~♡</p>
+      </div>
+      <div class="letter-content hidden">
         <h2>💌 TO. 아빠</h2>
-        <p>
-          편지애요
+        <p>언니 편지</p>
+      </div>
+      <div class="letter-content hidden">
+        <h2>💌 TO. 아빠</h2>
+        <p>아빠 생일축하해ᰔᰔ
+          울 아빠 가족들 먹여살린다구 고생이 많은데 아빠 자신도 더 챙겼으면 좋겠어용
+        기분이 좀 좋았다, 나빴다해서 툴툴댈 때도 많지만 그래두 난 내가 아빠 딸이어서 좋아
+      아빠두 내가 아빠 딸이어서 좋았으면 좋겠오ㅎㅎ 항상 사랑해♡</div>
         </p>
       </div>
     </div>
+    <div id="letter-navigation" class="hidden">
+      <button id="prev-letter">← 이전</button>
+      <div id="letter-pagination"></div>
+      <button id="next-letter">다음 →</button>
+    </div>
   </div>
-    <div id="pause-indicator" class="hidden">
-    <div class="play-icon"></div>
-</div>
 
-      <div id="speed-controls" class="hidden">
+  <div id="film-container" class="hidden">
+    <div class="film-strip">
+      <img src="film1.jpg" class="film" /><img src="film2.jpg" class="film" />
+      <img src="film3.jpg" class="film" /><img src="film4.jpg" class="film" />
+      <img src="film5.jpg" class="film" /><img src="film6.jpg" class="film" />
+      <img src="film7.jpg" class="film" /><img src="film8.jpg" class="film" />
+      <img src="film9.jpg" class="film" /><img src="film10.jpg" class="film" />
+      <img src="film11.jpg" class="film" /><img src="film12.jpg" class="film" />
+    </div>
+  </div>
+
+  <div id="pause-indicator" class="hidden">
+    <div class="play-icon"></div>
+  </div>
+  <div id="speed-controls" class="hidden">
     <button onclick="setSpeed(0.5)">0.5x</button>
     <button onclick="setSpeed(1.0)" class="active">1x</button>
     <button onclick="setSpeed(1.5)">1.5x</button>
     <button onclick="setSpeed(2.0)">2x</button>
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
 </body>

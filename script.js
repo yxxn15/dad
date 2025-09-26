@@ -1,71 +1,143 @@
 // --- 전역 변수 ---
 let animationFrameId = null;
-let isPaused = false; // 일시정지 상태를 기억하는 변수
-let currentRate = 1.0; // 현재 배속을 기억하는 변수
+let isPaused = false;
+let currentRate = 1.0;
+let currentLetterIndex = 0;
+let letters = [];
 
 // --- 페이지 로드 및 초기화 ---
 window.onload = function() {
-  // (이 부분은 이전과 동일)
   const intro = document.getElementById('intro');
-  const videoFullscreen = document.getElementById('video-fullscreen');
-  const video = document.getElementById('birthday-video');
-  const videoCloseBtn = document.getElementById('video-close');
+  const letterScreen = document.getElementById('letter-screen');
+  
+  letters = document.querySelectorAll('.letter-content');
+  const prevLetterBtn = document.getElementById('prev-letter');
+  const nextLetterBtn = document.getElementById('next-letter');
 
+  // 1. 인트로 시작
   launchConfetti();
   typeText("사랑하는 아빠 생일 축하해 🎉", "typing-text", 150, () => {
     setTimeout(() => {
       intro.classList.add('hidden');
-      videoFullscreen.classList.remove('hidden');
-      video.play();
+      letterScreen.classList.remove('hidden');
+      showLetter(0);
     }, 2000);
   });
-  video.onended = () => { videoCloseBtn.classList.remove('hidden'); };
+
+  // 2. 편지 넘김 버튼 이벤트
+  nextLetterBtn.addEventListener('click', () => {
+    if (currentLetterIndex < letters.length - 1) {
+      currentLetterIndex++;
+      showLetter(currentLetterIndex);
+    } else {
+      startFilmSequence();
+    }
+  });
+
+  prevLetterBtn.addEventListener('click', () => {
+    if (currentLetterIndex > 0) {
+      currentLetterIndex--;
+      showLetter(currentLetterIndex);
+    }
+  });
 };
 
-// --- 이벤트 및 컨트롤 함수 ---
+// --- 핵심 기능 함수 ---
 
-// 영상 닫기
-function closeVideo() {
-  document.getElementById('video-fullscreen').classList.add('hidden');
-  document.getElementById('speed-controls').classList.remove('hidden');
-  const filmContainer = document.getElementById('film-container');
-  filmContainer.classList.remove('hidden');
-  
-  // ✅ 필름 컨테이너에 클릭 이벤트 추가!
-  filmContainer.addEventListener('click', togglePause);
+// 지정된 번호의 편지를 보여주는 함수
+function showLetter(index) {
+  document.getElementById('letter-navigation').classList.remove('hidden');
+  const pagination = document.getElementById('letter-pagination');
+  const prevBtn = document.getElementById('prev-letter');
+  const nextBtn = document.getElementById('next-letter');
 
-  const music = document.getElementById('background-music');
-  music.currentTime = 66;
-  music.play().catch(e => console.log("음악 재생 오류:", e));
+  letters.forEach(letter => letter.classList.add('hidden'));
+  letters[index].classList.remove('hidden');
 
-  setSpeed(1.0);
+  pagination.textContent = `${index + 1} / ${letters.length}`;
+  prevBtn.style.visibility = (index === 0) ? 'hidden' : 'visible';
+  nextBtn.textContent = (index === letters.length - 1) ? '필름 보기 →' : '다음 →';
 }
 
-// ✅ 일시정지 / 재시작 토글 함수
-function togglePause() {
-  isPaused = !isPaused; // 상태 뒤집기 (false -> true, true -> false)
-  const pauseIndicator = document.getElementById('pause-indicator');
+// 필름 시퀀스 시작
+function startFilmSequence() {
+  document.getElementById('letter-screen').classList.add('hidden');
+  document.getElementById('letter-navigation').classList.add('hidden');
+  document.getElementById('film-container').classList.remove('hidden');
+  document.getElementById('speed-controls').classList.remove('hidden');
+  
+  const filmContainer = document.getElementById('film-container');
+  filmContainer.addEventListener('click', togglePause);
+  
+  // ✅ 모든 필름 이미지가 로드될 때까지 기다렸다가 애니메이션 시작!
+  waitForImages('#film-container', () => {
+    filmContainer.scrollTop = 0;
+    const music = document.getElementById('background-music');
+    music.currentTime = 66;
+    music.play().catch(e => console.log("음악 재생 오류:", e));
+    setSpeed(1.0);
+  });
+}
 
-  if (isPaused) {
-    // 일시정지 상태일 때
-    cancelAnimationFrame(animationFrameId); // 애니메이션 중단
-    pauseIndicator.classList.remove('hidden'); // 일시정지 아이콘 보이기
-  } else {
-    // 다시 시작할 때
-    pauseIndicator.classList.add('hidden'); // 일시정지 아이콘 숨기기
-    playAnimation(currentRate); // 현재 배속과 위치에서 애니메이션 재시작
+// ✅ 이미지 로딩을 기다리는 함수 (새로 추가됨)
+function waitForImages(containerSelector, callback) {
+  const container = document.querySelector(containerSelector);
+  const images = container.querySelectorAll('img');
+  let loadedCount = 0;
+  const totalImages = images.length;
+
+  if (totalImages === 0) {
+    callback();
+    return;
+  }
+
+  images.forEach(image => {
+    if (image.complete) {
+      loadedCount++;
+    } else {
+      image.addEventListener('load', () => {
+        loadedCount++;
+        if (loadedCount === totalImages) {
+          callback();
+        }
+      });
+      image.addEventListener('error', () => { // 이미지 로드 실패 시에도 카운트
+        loadedCount++;
+        if (loadedCount === totalImages) {
+          callback();
+        }
+      });
+    }
+  });
+
+  if (loadedCount === totalImages) {
+    callback();
   }
 }
 
-// 배속 설정 (내부적으로 playAnimation 호출)
+
+// 일시정지 / 재시작 토글 함수
+function togglePause() {
+  isPaused = !isPaused;
+  const pauseIndicator = document.getElementById('pause-indicator');
+  if (isPaused) {
+    cancelAnimationFrame(animationFrameId);
+    pauseIndicator.classList.remove('hidden');
+  } else {
+    pauseIndicator.classList.add('hidden');
+    playAnimation(currentRate);
+  }
+}
+
+// 배속 설정 함수
 function setSpeed(rate) {
-  isPaused = false; // 배속 바꾸면 일시정지 해제
+  isPaused = false;
   document.getElementById('pause-indicator').classList.add('hidden');
-  currentRate = rate; // 현재 배속 업데이트
+  currentRate = rate;
   playAnimation(rate);
 }
 
-// ✅ 핵심 애니메이션 실행 함수 (수정됨)
+// 애니메이션 실행 함수
 function playAnimation(rate) {
   if (animationFrameId) { cancelAnimationFrame(animationFrameId); }
 
@@ -75,41 +147,35 @@ function playAnimation(rate) {
   if (activeButton) { activeButton.classList.add('active'); }
 
   const filmContainer = document.getElementById("film-container");
-  const letter = document.getElementById("letter-container");
-  
-  // ✅ 재시작 시, 현재 위치에서부터 시작하도록 수정
-  const startScrollTop = filmContainer.scrollTop; 
+  const filmStrip = filmContainer.querySelector('.film-strip');
+  const startScrollTop = filmContainer.scrollTop;
 
-  setTimeout(() => {
-    const totalDistance = letter.offsetTop - (window.innerHeight / 2) + (letter.offsetHeight / 2);
-    const remainingDistance = totalDistance - startScrollTop;
-    if (remainingDistance <= 0) return;
+  const totalDistance = filmStrip.scrollHeight - filmContainer.clientHeight;
+  const remainingDistance = totalDistance - startScrollTop;
+  if (remainingDistance <= 0) return;
 
-    const BASE_DURATION = 85000;
-    const currentProgress = startScrollTop / totalDistance;
-    const remainingBaseDuration = (1 - currentProgress) * BASE_DURATION;
-    const newAnimationDuration = remainingBaseDuration / rate;
-    let startTime = null;
+  const BASE_DURATION = 85000;
+  const currentProgress = totalDistance > 0 ? (startScrollTop / totalDistance) : 0;
+  const remainingBaseDuration = (1 - currentProgress) * BASE_DURATION;
+  const newAnimationDuration = remainingBaseDuration / rate;
+  let startTime = null;
 
-    function animationStep(currentTime) {
-      if (isPaused) return; // 일시정지 상태면 더 이상 진행 안 함
-      if (!startTime) startTime = currentTime;
-      const elapsedTime = currentTime - startTime;
-      const progress = Math.min(elapsedTime / newAnimationDuration, 1);
-      
-      filmContainer.scrollTop = startScrollTop + (progress * remainingDistance);
+  function animationStep(currentTime) {
+    if (isPaused) return;
+    if (!startTime) startTime = currentTime;
+    const elapsedTime = currentTime - startTime;
+    const progress = Math.min(elapsedTime / newAnimationDuration, 1);
+    filmContainer.scrollTop = startScrollTop + (progress * remainingDistance);
 
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animationStep);
-      } else {
-        filmContainer.scrollTop = totalDistance;
-      }
+    if (progress < 1) {
+      animationFrameId = requestAnimationFrame(animationStep);
+    } else {
+      filmContainer.scrollTop = totalDistance;
     }
-    animationFrameId = requestAnimationFrame(animationStep);
-  }, 100);
+  }
+  animationFrameId = requestAnimationFrame(animationStep);
 }
 
-// --- 유틸리티 함수 (기존과 동일) ---
-function launchConfetti() { /* ... */ }
-function typeText(text, targetId, speed, callback) { /* ... */ }
-function launchConfetti(){const canvas=document.getElementById("confettiCanvas");confetti.create(canvas,{resize:!0})({particleCount:200,spread:160})}function typeText(e,t,n,o){const i=document.getElementById(t);let a=0;const l=setInterval(()=>{a<e.length?i.textContent+=e[a++]:(clearInterval(l),o&&o())},n)}
+// --- 유틸리티 함수 ---
+function launchConfetti() { const canvas = document.getElementById("confettiCanvas"); confetti.create(canvas, { resize: true })({ particleCount: 200, spread: 160 }); }
+function typeText(text, targetId, speed, callback) { const target = document.getElementById(targetId); let i = 0; const interval = setInterval(() => { if (i < text.length) { target.textContent += text[i++]; } else { clearInterval(interval); if (callback) callback(); } }, speed); }
