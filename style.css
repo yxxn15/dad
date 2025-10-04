@@ -17,6 +17,24 @@ html, body {
   background: black;
 }
 
+.start-content {
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+.start-content h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+.start-content p {
+  font-size: 1.2em;
+  animation: fadeInOut 2s infinite;
+}
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
 .intro-photo {
   max-width: 90vw; max-height: 80vh;
   border-radius: 15px; margin-bottom: 20px;
